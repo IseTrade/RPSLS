@@ -8,11 +8,8 @@ namespace RPSLS
 {
     public class ComputerPlayer : Player
     {
-        internal int score;
-        //Override the gesture in the Player class with electronic random generator
         //Custom implementaton of the ThrowGesture for ComputerPlayer
         public override string ThrowGesture()
-
         {
             //Generate a random number and use that as the computer selection
             string gesture = GenerateRandomOption(); //No input required
@@ -48,12 +45,6 @@ namespace RPSLS
             Random randomGenerator = new Random();
             string randomChoice = randomGenerator.Next(1, 6).ToString(); //Options between 1 and up to but not including the last number
             return randomChoice;
-        }
-
-        internal void speakTaunt()
-        {
-            Console.WriteLine("COMPUTER SAYS: I DO NOT UNDERSTAND WHAT YOU MEAN...");
-            Console.WriteLine("COMPUTER SAYS: PLEASE TRY AGIAN.");
         }
     }
 }

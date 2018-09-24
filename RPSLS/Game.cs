@@ -6,18 +6,39 @@ namespace RPSLS
     public class Game
     {
         List<string> gameOptionsList = new List<string>();
+        HumanPlayer player1 = new HumanPlayer();
+        HumanPlayer player2 = new HumanPlayer();
+        ComputerPlayer computer = new ComputerPlayer();
 
-        //Class methods
+        private static int p1choice = 0;
+        private static int p2choice = 0;
+        private int rounds;
+
         public static void ShowMainMenu()
         {
             Console.Clear();
             Console.WriteLine("Welcome to Rock, Paper, Scissors, Lizard, Spock");
-            Console.WriteLine("===============================================");
+            Console.WriteLine("================================================");
             Console.WriteLine("");
             Console.WriteLine("1. New Game");
-            Console.WriteLine("2. Quit Game");
+            Console.WriteLine("2. Show Rules");
+            Console.WriteLine("3. Quit Game");
             Console.WriteLine("");
-            Console.Write("Select an option to begin: ");
+            Console.Write("Enter an option to begin: ");
+        }
+
+        //Submenu options for 
+        public static void ShowSubMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Choose Mode:");
+            Console.WriteLine("============");
+            Console.WriteLine("");
+            Console.WriteLine("1. 1P vs 2P");
+            Console.WriteLine("2. 1P vs CPU");
+            Console.WriteLine("3. Exit");
+            Console.WriteLine("");
+            Console.Write("Enter an option to begin: ");
         }
 
         public void ShowChoices()
@@ -38,10 +59,9 @@ namespace RPSLS
 
         public static void ShowGameRules()
         {
-            Console.WriteLine("Welcome to Rock, Paper, Scissors, Lizard, Spock");
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine("The rules of the games are: ");
+            Console.Clear();
+            Console.WriteLine("The Rock, Paper, Scissors, Lizard, Spock - Game Guide");
+            Console.WriteLine("=====================================================");
             Console.WriteLine("");
             Console.WriteLine("Rock crushes Scissors.");
             Console.WriteLine("Scissors cuts Paper.");
@@ -54,12 +74,14 @@ namespace RPSLS
             Console.WriteLine("Paper disproves Spock.");
             Console.WriteLine("Spock vaporizes Rock.");
             Console.WriteLine("");
-            Console.WriteLine("Human player will choose a hand gesture and computer player will randomly choose a gesture");
-            Console.WriteLine("5 rounds will be played and the player with the higher score wins.");
-            Console.WriteLine("If hand gestures are the same for both players, it's a draw round.");
+            Console.WriteLine("How To Begin:");
+            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine("1. Chose an option.");
+            Console.WriteLine("2. You get five rounds to win the game.");
+            Console.WriteLine("3. The game is a draw if both choices match.");
         }
 
-        //Build a list of game options
+        //Build a pointless list of game options which could have been fixed
         public void InitializeVariables()
         {
             gameOptionsList.Add("Rock");
@@ -69,88 +91,124 @@ namespace RPSLS
             gameOptionsList.Add("Spock");
         }
 
+        //Option 1
         public void StartGame()
         {
-            //Clear the list
-            gameOptionsList.Clear();
-
             //1. Initialize variables
             InitializeVariables();
 
+            //2. Show Main Menu
             ShowMainMenu();
+            string mainMenuChoice = Console.ReadLine();
 
-            //2. Accept input from the user
-            string gameChoice = Console.ReadLine();
-
-            //3. Check the user input and perform the action
-            if (gameChoice == "1")
+            //Check the user input and perform the action
+            switch (mainMenuChoice)
             {
-                HumanPlayer player1 = new HumanPlayer();
-                ComputerPlayer player2 = new ComputerPlayer();
+                case "1":
+                    ShowSubMenu();
+                    string subMenuChoice = Console.ReadLine();
+                    switch (subMenuChoice)
+                    {
+                        case "1":
+                            do
+                            {
+                                ShowChoices();//Ask to choose an option
+                                p1choice = Convert.ToInt32(player1.ThrowGesture());
+                                ShowChoices();//Ask to choose an option
+                                p2choice = Convert.ToInt32(player2.ThrowGesture());
+                                rounds--;
+                            } while (rounds <= 5);
+                            break;
+                        case "2":
+                            do
+                            {
+                                ShowChoices();//Ask to choose an option
+                                p1choice = Convert.ToInt32(player1.ThrowGesture());
+                                p2choice = Convert.ToInt32(computer.ThrowGesture());//Computer does not ask for options
+                                rounds--;
+                            } while (rounds <= 5);
+                            break;
+                        case "3":
+                        //Go through to default, no break required
+                        default:
+                            //Return to Main Menu
+                            ShowMainMenu();
+                            break;
+                    }
+                    break;
+                case "2":
+                    ShowGameRules();
+                    break;
+                case "3":
+                    Environment.Exit(0);
+                    break;
+                default:
+                    ShowMainMenu();
+                    break;
+            }
 
+            ComputeRoundScore();
+        }
+
+        private void ComputeRoundScore()
+        {
+            //Game logic engine
+            bool beatsRock, beatsPaper, beatsScissors, beatsLizzard, beatsSpock;
+
+            beatsRock = (p1choice == 1 && (p2choice == 3 || p2choice == 4));
+            beatsPaper = (p1choice == 2 && (p2choice == 1 || p2choice == 5));
+            beatsScissors = (p1choice == 3 && (p2choice == 2 || p2choice == 4));
+            beatsLizzard = (p1choice == 4 && (p2choice == 5 || p2choice == 2));
+            beatsSpock = (p1choice == 5 && (p2choice == 3 || p2choice == 1));
+
+            //Game result output
+            Console.WriteLine("");
+            if (p1choice == p2choice)
+            {
+                Console.WriteLine("DRAW!");
                 ShowChoices();
-
-                //Get player choices
-                int p1choice = Convert.ToInt32(Console.ReadLine()); //Input required
-                int p2choice = Convert.ToInt32(player2.ThrowGesture()); //No input required
-
-                bool beatsRock;
-                bool beatsPaper;
-                bool beatsScissors;
-                bool beatsLizzard;
-                bool beatsSpock;
-
-                //Game logic engine
-                beatsRock = (p1choice == 1 && (p2choice == 3 || p2choice == 4));
-                beatsPaper = (p1choice == 2 && (p2choice == 1 || p2choice == 5));
-                beatsScissors = (p1choice == 3 && (p2choice == 2 || p2choice == 4));
-                beatsLizzard = (p1choice == 4 && (p2choice == 5 || p2choice == 2));
-                beatsSpock = (p1choice == 5 && (p2choice == 3 || p2choice == 1));
-
-                Console.WriteLine("");
-
-                //Game result output
-                if (p1choice == p2choice)
-                {
-                    Console.WriteLine("DRAW!");
-                }
-                else if ((beatsRock || beatsPaper || beatsScissors || beatsLizzard || beatsSpock) == true)
-                {
-                    player1.score += 1;
-                    Console.WriteLine("PLAYER 1 WINS THE ROUND");
-                }
-                else
-                {
-                    player2.score += 1;
-                    Console.WriteLine("COMPUTER WINS THE ROUND");
-                    player1.speakTaunt();
-                    player2.speakTaunt();
-                }
+            }
+            else if ((beatsRock || beatsPaper || beatsScissors || beatsLizzard || beatsSpock) == true)
+            {
+                Console.WriteLine("PLAYER 1 WINS THE ROUND");
+                player1.score += 1;
+                ShowChoices();
             }
             else
             {
-                Console.Write("CONTINUE? Y/N");
-                string rematchChoice = Console.ReadLine();
-                if (rematchChoice == "Y" || rematchChoice == "y")
+                Console.WriteLine("COMPUTER WINS THE ROUND");
+                player2.score += 1;
+                ShowChoices();
+            }
+        }
+
+        public void ShowScores()
+        {
+            if (rounds == 5)
+            {
+                if (player2.score > player1.score)
                 {
-                    //Restart the game options
-                    ShowMainMenu();
+                    if (player2.GetType() == typeof(HumanPlayer))
+                    {
+                        //HumanPlayer
+                        Console.WriteLine("PLAYER 2 WINS THE GAME");
+                    }
+                    else
+                    {
+                        //ComputerPlayer
+                        Console.WriteLine("COMPUTER WINS THE GAME");
+
+                    }
                 }
                 else
                 {
-                    //Exit the game
-                    System.Environment.Exit(0);
+                    //HumanPlayer
+                    Console.WriteLine("PLAYER 1 WINS THE GAME");
                 }
             }
-
-            //4. Score Tracking
-            //TODO: A function to show both scores and show winner
-            //ShowScores();
-            //if (player1.score > player2.score) { Console.Write("PLAYER 1 WINS THE GAME"); } else { Console.Write("COMPUTER WINS THE GAME"); }
-
-            //5. Next Round
-            //TODO: A function to start another game?
-            
         }
+        //5. Next Round
+        //TODO: A function to start another game?
+        //StartGame();
     }
 }

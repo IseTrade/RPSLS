@@ -10,10 +10,11 @@ namespace RPSLS
     {
         static void Main(string[] args)
         {
+            //Build the game object
             Game game = new Game();
-            game.StartGame(); //Enter the game dungeon
 
-            Console.ReadKey();
+            //Start the game object
+            game.StartGame();
         }
     }
 }

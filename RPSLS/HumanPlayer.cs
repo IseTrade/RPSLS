@@ -10,7 +10,7 @@ namespace RPSLS
     {
         internal int score;
 
-        //Custom implementation of ThrowGesture for HumanPlayer because Computer's gesture will be random. 
+        //Custom implementation of ThrowGesture for HumanPlayer
         public override string ThrowGesture()
         {
             //Capture the input from the Human Player
@@ -37,11 +37,6 @@ namespace RPSLS
                     Console.WriteLine("Please enter a valid number!!!");
                     return "0";
             }
-        }
-
-        internal void speakTaunt()
-        {
-            Console.WriteLine("PLAYER1 SAYS: YOU CHEATER! AIM BOT! HAKCER...");
         }
     }
 }
