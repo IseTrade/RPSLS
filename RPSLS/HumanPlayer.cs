@@ -8,7 +8,20 @@ namespace RPSLS
 {
     public class HumanPlayer : Player
     {
+        private string playerName;
         internal int score;
+
+        //Allow us to get the name
+        public override string getName()
+        {
+            return this.playerName;
+        }
+
+        //Allow us to set the name
+        public override void setName(string name)
+        {
+            this.playerName = name;
+        }
 
         //Custom implementation of ThrowGesture for HumanPlayer
         public override string ThrowGesture()

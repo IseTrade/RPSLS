@@ -8,6 +8,20 @@ namespace RPSLS
 {
     public class ComputerPlayer : Player
     {
+        private string playerName;
+
+        //Allow us to get the name
+        public override string getName()
+        {
+            return this.playerName;
+        }
+
+        //Allow us to set the name
+        public override void setName(string name)
+        {
+            this.playerName = name;
+        }
+
         //Custom implementaton of the ThrowGesture for ComputerPlayer
         public override string ThrowGesture()
         {
