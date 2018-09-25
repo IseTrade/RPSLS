@@ -5,7 +5,7 @@ namespace RPSLS
 {
     public class Game
     {
-        List<string> gameOptionsList = new List<string>();
+        List<string> gameOptionsList = new List<string>();      
         HumanPlayer player1 = new HumanPlayer("Player 1");
         HumanPlayer player2 = new HumanPlayer("Player 2");
         ComputerPlayer computer = new ComputerPlayer("Computer");
@@ -122,21 +122,24 @@ namespace RPSLS
                 case "3":
                     ShowGameRules();
                     Console.ReadLine();
-                    ShowMainMenu();
+                    gameOptionsList.Clear();   //clearing the list so it wont add to itself
+                    StartGame();
                     break;
                 case "4":
                     Environment.Exit(0);
                     break;
                 default:
                     //Return to Main Menu                    
-                    ShowMainMenu();
                     Console.WriteLine("Please enter a valid input.");
+                    Console.ReadLine();
+                    gameOptionsList.Clear(); //clearing the list so it wont add to itself
+                    StartGame();
                     break;
             }
         }
 
         //A function to compute the score given the two integer menu choices
-        private void ComputeRoundScore(int p1choice, int p2choice)
+         private void ComputeRoundScore(int p1choice, int p2choice)
         {
             bool beatsRock, beatsPaper, beatsScissors, beatsLizzard, beatsSpock;
 
