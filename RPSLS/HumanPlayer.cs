@@ -33,7 +33,6 @@ namespace RPSLS
         {
             //Capture the input from the Human Player
             string gesture = Console.ReadLine(); //Input required
-
             switch (gesture)
             {
                 //Hiding the output to prevent cheating with 1P vs 2P
@@ -53,8 +52,9 @@ namespace RPSLS
                     //Console.WriteLine("You've selected Spock");
                     return "5";
                 default:
-                    //Console.WriteLine("Please enter a valid number!!!");
-                    return "0";
+                    Console.WriteLine("Please enter a valid number!!!");
+                    ThrowGesture();
+                    return "0";                   
             }
         }
     }

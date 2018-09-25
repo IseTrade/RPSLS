@@ -128,8 +128,9 @@ namespace RPSLS
                     Environment.Exit(0);
                     break;
                 default:
-                    //Return to Main Menu
+                    //Return to Main Menu                    
                     ShowMainMenu();
+                    Console.WriteLine("Please enter a valid input.");
                     break;
             }
         }
