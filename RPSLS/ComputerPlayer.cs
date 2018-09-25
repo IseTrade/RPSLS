@@ -10,16 +10,22 @@ namespace RPSLS
     {
         private string playerName;
 
-        //Allow us to get the name
-        public override string getName()
+        //An overloaded constructor which takes a string parameter
+        public ComputerPlayer(string name)
         {
-            return this.playerName;
+            SetName(name);
+        }
+
+        //Allow us to get the name
+        public override string GetName()
+        {
+            return playerName;
         }
 
         //Allow us to set the name
-        public override void setName(string name)
+        public override void SetName(string name)
         {
-            this.playerName = name;
+            playerName = name;
         }
 
         //Custom implementaton of the ThrowGesture for ComputerPlayer
@@ -32,6 +38,7 @@ namespace RPSLS
 
             switch (gesture)
             {
+                //Showing the output of the computer choice to prevent computer cheating
                 case "1":
                     Console.WriteLine("Computer selected Rock");
                     return "1";
